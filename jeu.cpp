@@ -5,7 +5,7 @@ Jeu::Jeu(MainWindow* fenetre) :
     _fenetre(fenetre),
     _roubles(0)
 {
-
+    _manifeste = new Manifeste();
 }
 
 void Jeu::setMainWindow(MainWindow *fenetre)
@@ -27,7 +27,7 @@ void Jeu::ajouterRoublesClic()
 
 double Jeu::getRoublesParMs(int millisecondes)
 {
-    return millisecondes;
+    return _manifeste->getTotalRevenuParMs(millisecondes);
 }
 
 double Jeu::getRoubles()
@@ -38,4 +38,42 @@ double Jeu::getRoubles()
 double Jeu::getRoublesParClic()
 {
     return 1;
+}
+
+void Jeu::sauvegarder(QString chemin)
+{
+    std::ofstream sauvegarde(chemin.toStdString(), std::ios::out | std::ios::binary);
+
+    if(sauvegarde.is_open())
+    {
+        sauvegarde.write((char*)this, sizeof(Jeu));
+    }
+    else
+    {
+        QMessageBox::critical(_fenetre,"Sauvegarde impossible","Le fichier de sauvegarde ne peut être écrit. Vérifiez que vous avez les droits d'écriture dessus.");
+    }
+}
+
+Achat* Jeu::getAchat(TypeAchat type)
+{
+    Achat* retour = NULL;
+    if(type == ManifesteParti)
+    {
+        retour = _manifeste;
+//        std::cout << _manifeste->getPrixDeBase() << std::endl;
+    }
+
+    return retour;
+}
+
+void Jeu::gagnerRoubles(double nbRoubles)
+{
+    _roubles += nbRoubles;
+    _fenetre->changeRoubles();
+}
+
+void Jeu::payerRoubles(double nbRoubles)
+{
+    _roubles -= nbRoubles;
+    _fenetre->changeRoubles();
 }

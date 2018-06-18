@@ -26,11 +26,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    jeu.cpp
+    jeu.cpp \
+    achats/achat.cpp \
+    achatview.cpp \
+    achats/manifeste.cpp
 
 HEADERS += \
         mainwindow.h \
-    jeu.h
+    jeu.h \
+    achats/achat.h \
+    achatview.h \
+    achats/manifeste.h \
+    achats/typeachat.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    achatview.ui

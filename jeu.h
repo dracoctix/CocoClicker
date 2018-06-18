@@ -1,9 +1,12 @@
 #ifndef JEU_H
 #define JEU_H
 
-#include <QMainWindow>
+#include <QString>
+#include <QMessageBox>
 
-//#include "mainwindow.h"
+#include "achats/achat.h"
+#include "achats/manifeste.h"
+#include "achats/typeachat.h"
 
 class MainWindow;
 
@@ -19,9 +22,19 @@ public:
     double getRoubles();
     double getRoublesParClic();
 
+    void gagnerRoubles(double nbRoubles);
+    void payerRoubles(double nbRoubles);
+
+    Achat* getAchat(TypeAchat type);
+
+    void sauvegarder(QString chemin);
+
 private:
     MainWindow* _fenetre;
     double _roubles;
+
+    // Achats
+    Manifeste* _manifeste;
 };
 
 #endif // JEU_H

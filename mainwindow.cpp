@@ -9,16 +9,24 @@ MainWindow::MainWindow(QWidget *parent) :
 
     jeu = new Jeu(this);
 
-    std::ifstream sauvegarde("sauvegarde.sav",std::ios::in | std::ios::binary);
-    if(sauvegarde.is_open())
-    {
-        sauvegarde.read((char*)jeu, sizeof(Jeu));
-        jeu->setMainWindow(this);
-    }
+//    SAUVEGARDE EN MAINTENANCE
+//    std::ifstream sauvegarde("sauvegarde.sav",std::ios::in | std::ios::binary);
+//    if(sauvegarde.is_open())
+//    {
+//        sauvegarde.read((char*)jeu, sizeof(Jeu));
+//        jeu->setMainWindow(this);
+//    }
 
     _timer.start(10);
 
     QObject::connect(&_timer,SIGNAL(timeout()), this, SLOT(ajouterRoubles()));
+
+//    std::cout << jeu->getAchat(ManifesteParti)->getPrixDeBase() << std::endl;
+
+    AchatView* achat = new AchatView(ui->tabAchats, jeu, jeu->getAchat(ManifesteParti), this);
+
+    ui->tabAchats->setMinimumWidth(achat->width());
+    _vuesAchat.append(achat);
 }
 
 MainWindow::~MainWindow()
@@ -28,23 +36,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionSauvegarde_rapide_triggered()
 {
-    std::ofstream sauvegarde("sauvegarde.sav", std::ios::out | std::ios::binary);
-
-    if(sauvegarde.is_open())
-    {
-        sauvegarde.write((char*)jeu, sizeof(Jeu));
-    }
-    else
-    {
-        QMessageBox::critical(this,"Sauvegarde impossible","Le fichier de sauvegarde ne peut être écrit. Vérifiez que vous avez les droits d'écriture dessus.");
-    }
+    jeu->sauvegarder("sauvegarde.sav");
 }
 
 void MainWindow::ajouterRoubles()
 {
     jeu->ajouterRoubles();
-    changeRoublesParSeconde();
-    changeRoublesParClic();
+    updateValues();
 }
 
 void MainWindow::changeRoubles()
@@ -65,4 +63,22 @@ void MainWindow::changeRoublesParClic()
 void MainWindow::on_boutonTravailler_pressed()
 {
     jeu->ajouterRoublesClic();
+    updateValues();
+    setStatusText("Vous avez collecté " + QString::number(jeu->getRoublesParClic()) + " roubles en travaillant pour construire un canal.");
+}
+
+void MainWindow::updateValues()
+{
+    changeRoubles();
+    changeRoublesParClic();
+    changeRoublesParSeconde();
+
+    for(AchatView* widget : _vuesAchat) {
+        widget->updateValues();
+    }
+}
+
+void MainWindow::setStatusText(QString texte)
+{
+    ui->statusBar->showMessage(texte);
 }

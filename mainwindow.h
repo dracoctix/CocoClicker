@@ -5,11 +5,15 @@
 #include <QMessageBox>
 #include <QTimer>
 #include <QLabel>
+#include <QList>
+#include <QStatusBar>
 
 #include <iostream>
 #include <fstream>
 
 #include "jeu.h"
+#include "achatview.h"
+#include "achats/typeachat.h"
 
 namespace Ui {
 class MainWindow;
@@ -27,6 +31,10 @@ public:
     void changeRoublesParSeconde();
     void changeRoublesParClic();
 
+    void updateValues();
+
+    void setStatusText(QString texte);
+
 public slots:
     void ajouterRoubles();
 
@@ -40,6 +48,8 @@ private:
     Jeu *jeu;
 
     QTimer _timer;
+
+    QList<AchatView*> _vuesAchat;
 };
 
 #endif // MAINWINDOW_H

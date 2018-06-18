@@ -17,6 +17,12 @@
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
      <widget class="QWidget" name="widget" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <widget class="QLabel" name="labelRoubles">
@@ -84,9 +90,12 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
-      <widget class="QWidget" name="tab">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tabAchats">
        <attribute name="title">
-        <string>Tab 1</string>
+        <string>Achats</string>
        </attribute>
       </widget>
       <widget class="QWidget" name="tab_2">
@@ -131,7 +140,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Exporter sauvegarde...</string>
+    <string>&amp;Exporter sauvegarde...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
@@ -142,7 +151,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Lire sauvegarde...</string>
+    <string>&amp;Lire sauvegarde...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
