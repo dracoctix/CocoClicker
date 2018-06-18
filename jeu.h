@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+//#include "mainwindow.h"
+
 class MainWindow;
 
 class Jeu
@@ -12,7 +14,10 @@ public:
 
     void setMainWindow(MainWindow* fenetre);
     void ajouterRoubles();
+    void ajouterRoublesClic();
     double getRoublesParMs(int millisecondes);
+    double getRoubles();
+    double getRoublesParClic();
 
 private:
     MainWindow* _fenetre;

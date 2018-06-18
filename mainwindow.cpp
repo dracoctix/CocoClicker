@@ -43,10 +43,26 @@ void MainWindow::on_actionSauvegarde_rapide_triggered()
 void MainWindow::ajouterRoubles()
 {
     jeu->ajouterRoubles();
+    changeRoublesParSeconde();
+    changeRoublesParClic();
 }
 
 void MainWindow::changeRoubles()
 {
-    // TODO : Afficher le changement de roubles.
-    return;
+    ui->labelRoubles->setText(QString::number(jeu->getRoubles()) + " roubles");
+}
+
+void MainWindow::changeRoublesParSeconde()
+{
+    ui->labelRoublesParSeconde->setText(QString::number(jeu->getRoublesParMs(1000)) + " roubles/seconde");
+}
+
+void MainWindow::changeRoublesParClic()
+{
+    ui->labelRoublesParClic->setText(QString::number(jeu->getRoublesParClic()) + " roubles/clic");
+}
+
+void MainWindow::on_boutonTravailler_pressed()
+{
+    jeu->ajouterRoublesClic();
 }
