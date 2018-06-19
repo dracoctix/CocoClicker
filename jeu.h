@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QMessageBox>
+#include <vector>
 
 #include "achats/achat.h"
 #include "achats/manifeste.h"
@@ -34,6 +35,7 @@ private:
     double _roubles;
 
     // Achats
+    std::vector<Achat*> _achats;
     Manifeste* _manifeste;
 };
 

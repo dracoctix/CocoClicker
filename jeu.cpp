@@ -6,6 +6,7 @@ Jeu::Jeu(MainWindow* fenetre) :
     _roubles(0)
 {
     _manifeste = new Manifeste();
+    _achats.push_back(_manifeste);
 }
 
 void Jeu::setMainWindow(MainWindow *fenetre)
@@ -57,9 +58,10 @@ void Jeu::sauvegarder(QString chemin)
 Achat* Jeu::getAchat(TypeAchat type)
 {
     Achat* retour = NULL;
-    if(type == ManifesteParti)
-    {
+    switch(type) {
+    case ManifesteParti:
         retour = _manifeste;
+        break;
 //        std::cout << _manifeste->getPrixDeBase() << std::endl;
     }
 
