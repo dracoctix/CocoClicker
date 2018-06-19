@@ -170,3 +170,13 @@ void MainWindow::on_actionExporter_sauvegarde_triggered()
         }
     }
 }
+
+void MainWindow::on_actionLire_sauvegarde_triggered()
+{
+    QString chemin = QFileDialog::getOpenFileName(this,"Lire la sauvegarde...", QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation)[0],"Fichier de sauvegarde Coco Clicker (*.cocosave)");
+    if(chemin != NULL)
+    {
+        reset(chemin.toStdString());
+        setStatusTip("Les archives ont été récupérées.");
+    }
+}

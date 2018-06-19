@@ -64,6 +64,8 @@ private slots:
 
     void on_actionExporter_sauvegarde_triggered();
 
+    void on_actionLire_sauvegarde_triggered();
+
 private:
     Ui::MainWindow *ui;
     Jeu *jeu;
