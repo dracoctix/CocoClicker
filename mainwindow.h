@@ -41,7 +41,7 @@ public:
     void removeAchatsViews();
     void addAchatsViews();
 
-    bool deleteSave(char* chemin = "sauvegarde.sav");
+    bool deleteSave(std::string chemin = "sauvegarde.sav");
 
 public slots:
     void ajouterRoubles();

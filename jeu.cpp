@@ -38,7 +38,7 @@ Jeu::Jeu(MainWindow* fenetre, std::string chemin, bool autoSave) :
 
 Jeu::~Jeu()
 {
-    for(Achat* achat : _achats) {
+    for(auto* achat : _achats) {
         delete(achat);
     }
 }

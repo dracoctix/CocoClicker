@@ -123,9 +123,9 @@ void MainWindow::on_actionR_initialiser_triggered()
     setStatusText("Le gouvernement soviétique s'est effondré, et vos efforts sont réduits à néant.");
 }
 
-bool MainWindow::deleteSave(char* chemin)
+bool MainWindow::deleteSave(std::string chemin)
 {
-    int resultat = std::remove(chemin);
+    int resultat = std::remove(chemin.c_str());
     if(resultat != 0)
     {
         QMessageBox::critical(this,"La sauvegarde ne peut être supprimée.", "La suppression de la sauvegarde a échoué.<br>(code d'erreur : " + QString::number(resultat,16) + ")");
