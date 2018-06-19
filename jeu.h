@@ -36,7 +36,7 @@ public:
     Achat* getAchat(TypeAchat::TypeAchat type);
     std::vector<Achat*> getAchats();
 
-    void sauvegarder(std::string chemin = "sauvegarde.sav");
+    bool sauvegarder(std::string chemin = "sauvegarde.sav");
 
 private:
     MainWindow* _fenetre;

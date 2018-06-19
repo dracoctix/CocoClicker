@@ -89,8 +89,9 @@ double Jeu::getRoublesParClic()
     return 1;
 }
 
-void Jeu::sauvegarder(std::string chemin)
+bool Jeu::sauvegarder(std::string chemin)
 {
+    bool retour = false;
     std::ofstream sauvegarde(chemin, std::ios::out | std::ios::binary);
 
     if(sauvegarde.is_open())
@@ -112,11 +113,16 @@ void Jeu::sauvegarder(std::string chemin)
             sauvegarde.write((char*)&typeAchat, sizeof(TypeAchat::TypeAchat));
             sauvegarde.write((char*)&nb, sizeof(int));
         }
+
+        retour = true;
     }
     else
     {
         QMessageBox::critical(_fenetre,"Sauvegarde impossible","Le fichier de sauvegarde ne peut être écrit. Vérifiez que vous avez les droits d'écriture dessus.");
+        retour = false;
     }
+
+    return retour;
 }
 
 Achat* Jeu::getAchat(TypeAchat::TypeAchat type)

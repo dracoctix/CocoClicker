@@ -9,6 +9,8 @@
 #include <QStatusBar>
 #include <QLayout>
 #include <QAction>
+#include <QFileDialog>
+#include <QStandardPaths>
 
 #include <iostream>
 #include <fstream>
@@ -42,6 +44,7 @@ public:
     void addAchatsViews();
 
     bool deleteSave(std::string chemin = "sauvegarde.sav");
+    void reset(std::string chemin = "");
 
 public slots:
     void ajouterRoubles();
@@ -56,6 +59,10 @@ private slots:
     void on_actionR_initialiser_triggered();
 
     void on_actionSupprimer_la_sauvegarde_triggered();
+
+    void on_actionRevenir_la_derni_re_sauvegarde_triggered();
+
+    void on_actionExporter_sauvegarde_triggered();
 
 private:
     Ui::MainWindow *ui;

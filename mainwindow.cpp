@@ -112,15 +112,9 @@ void MainWindow::on_actionR_initialiser_triggered()
     if(!firstConfirm) return;
     secondConfirm = (!jeu->autoSave() || (QMessageBox::warning(this,"Confirmation", "Attention. La sauvegarde automatique est activée. Si vous continuez, il vous sera impossible de récupérer votre progression. Êtes-vous sûr de vouloir poursuivre ?", QMessageBox::StandardButton::Yes | QMessageBox::StandardButton::No) == QMessageBox::StandardButton::Yes));
     if(secondConfirm) {
-        bool autoSave = jeu->autoSave();
-        removeAchatsViews();
-
-        delete(jeu);
-        jeu = new Jeu(this,"",autoSave);
-        addAchatsViews();
+        reset();
+        setStatusText("Le gouvernement soviétique s'est effondré, et vos efforts sont réduits à néant.");
     }
-
-    setStatusText("Le gouvernement soviétique s'est effondré, et vos efforts sont réduits à néant.");
 }
 
 bool MainWindow::deleteSave(std::string chemin)
@@ -135,6 +129,16 @@ bool MainWindow::deleteSave(std::string chemin)
     return true;
 }
 
+void MainWindow::reset(std::string chemin)
+{
+    bool autoSave = jeu->autoSave();
+    removeAchatsViews();
+
+    delete(jeu);
+    jeu = new Jeu(this,chemin,autoSave);
+    addAchatsViews();
+}
+
 void MainWindow::on_actionSupprimer_la_sauvegarde_triggered()
 {
     if(QMessageBox::information(this,"Confirmation","Etes-vous sûr de vouloir supprimer votre sauvegarde ? Cette action est irréversible.",QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
@@ -142,6 +146,27 @@ void MainWindow::on_actionSupprimer_la_sauvegarde_triggered()
         if(deleteSave())
         {
             setStatusText("Les archives socialistes ont été détruites.");
+        }
+    }
+}
+
+void MainWindow::on_actionRevenir_la_derni_re_sauvegarde_triggered()
+{
+    if(QMessageBox::information(this,"Confirmation","Êtes-vous sûr de vouloir revenir à la dernière sauvegarde ? Tous vos gains acquis depuis la dernière sauvegarde seront effacés.",QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
+    {
+        reset("sauvegarde.sav");
+        setStatusText("Vous avez récupéré les archives du parti.");
+    }
+}
+
+void MainWindow::on_actionExporter_sauvegarde_triggered()
+{
+    QString chemin = QFileDialog::getSaveFileName(this,"Exporter la sauvegarde...",QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation), "Fichier de sauvegarde Coco Clicker (*.cocosave)");
+    if(chemin != NULL)
+    {
+        if(jeu->sauvegarder(chemin.toStdString()))
+        {
+            setStatusText("Les archives du parti ont été mises en sécurité.");
         }
     }
 }

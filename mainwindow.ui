@@ -127,6 +127,7 @@
     <addaction name="separator"/>
     <addaction name="actionR_initialiser"/>
     <addaction name="actionSupprimer_la_sauvegarde"/>
+    <addaction name="actionRevenir_la_derni_re_sauvegarde"/>
    </widget>
    <addaction name="menuSauvegarde"/>
   </widget>
@@ -144,7 +145,7 @@
   </action>
   <action name="actionExporter_sauvegarde">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>&amp;Exporter sauvegarde...</string>
@@ -183,6 +184,11 @@
   <action name="actionSupprimer_la_sauvegarde">
    <property name="text">
     <string>Supprimer la sauvegarde</string>
+   </property>
+  </action>
+  <action name="actionRevenir_la_derni_re_sauvegarde">
+   <property name="text">
+    <string>Revenir à la dernière sauvegarde</string>
    </property>
   </action>
  </widget>
