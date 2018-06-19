@@ -12,6 +12,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <cstdio>
 
 #include "jeu.h"
 #include "achatview.h"
@@ -40,6 +41,8 @@ public:
     void removeAchatsViews();
     void addAchatsViews();
 
+    bool deleteSave(char* chemin = "sauvegarde.sav");
+
 public slots:
     void ajouterRoubles();
 
@@ -51,6 +54,8 @@ private slots:
     void on_actionSauvegarde_automatique_triggered(bool checked);
 
     void on_actionR_initialiser_triggered();
+
+    void on_actionSupprimer_la_sauvegarde_triggered();
 
 private:
     Ui::MainWindow *ui;

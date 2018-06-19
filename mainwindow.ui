@@ -126,6 +126,7 @@
     <addaction name="actionSauvegarde_automatique"/>
     <addaction name="separator"/>
     <addaction name="actionR_initialiser"/>
+    <addaction name="actionSupprimer_la_sauvegarde"/>
    </widget>
    <addaction name="menuSauvegarde"/>
   </widget>
@@ -168,7 +169,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Sauvegarde automatique</string>
+    <string>Sa&amp;uvegarde automatique</string>
    </property>
   </action>
   <action name="actionR_initialiser">
@@ -176,7 +177,12 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Réinitialiser</string>
+    <string>&amp;Réinitialiser</string>
+   </property>
+  </action>
+  <action name="actionSupprimer_la_sauvegarde">
+   <property name="text">
+    <string>Supprimer la sauvegarde</string>
    </property>
   </action>
  </widget>

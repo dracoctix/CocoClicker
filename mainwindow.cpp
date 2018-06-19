@@ -119,4 +119,29 @@ void MainWindow::on_actionR_initialiser_triggered()
         jeu = new Jeu(this,"",autoSave);
         addAchatsViews();
     }
+
+    setStatusText("Le gouvernement soviétique s'est effondré, et vos efforts sont réduits à néant.");
+}
+
+bool MainWindow::deleteSave(char* chemin)
+{
+    int resultat = std::remove(chemin);
+    if(resultat != 0)
+    {
+        QMessageBox::critical(this,"La sauvegarde ne peut être supprimée.", "La suppression de la sauvegarde a échoué.<br>(code d'erreur : " + QString::number(resultat,16) + ")");
+        return false;
+    }
+
+    return true;
+}
+
+void MainWindow::on_actionSupprimer_la_sauvegarde_triggered()
+{
+    if(QMessageBox::information(this,"Confirmation","Etes-vous sûr de vouloir supprimer votre sauvegarde ? Cette action est irréversible.",QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
+    {
+        if(deleteSave())
+        {
+            setStatusText("Les archives socialistes ont été détruites.");
+        }
+    }
 }
