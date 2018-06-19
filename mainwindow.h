@@ -37,6 +37,7 @@ public:
 
     void setStatusText(QString texte);
 
+    void removeAchatsViews();
     void addAchatsViews();
 
 public slots:
@@ -48,6 +49,8 @@ private slots:
     void on_boutonTravailler_pressed();
 
     void on_actionSauvegarde_automatique_triggered(bool checked);
+
+    void on_actionR_initialiser_triggered();
 
 private:
     Ui::MainWindow *ui;

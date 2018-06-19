@@ -78,10 +78,18 @@ void MainWindow::setStatusText(QString texte)
     ui->statusBar->showMessage(texte);
 }
 
+void MainWindow::removeAchatsViews()
+{
+    for (auto widget: ui->tabAchats->children()) {
+      delete widget;
+    }
+
+    _vuesAchat.clear();
+}
+
 void MainWindow::addAchatsViews()
 {
     QVBoxLayout* layout = new QVBoxLayout(ui->tabAchats);
-    ui->tabAchats->setLayout(layout);
     AchatView* achatView;
     for(Achat* a : jeu->getAchats())
     {
@@ -95,4 +103,20 @@ void MainWindow::addAchatsViews()
 void MainWindow::on_actionSauvegarde_automatique_triggered(bool checked)
 {
     jeu->setAutoSave(checked);
+}
+
+void MainWindow::on_actionR_initialiser_triggered()
+{
+    bool firstConfirm, secondConfirm;
+    firstConfirm = (QMessageBox::information(this,"Confirmation","Êtes-vous sûr de vouloir recommencer ? Tous vos roubles, achats et améliorations seront perdus.",QMessageBox::StandardButton::Yes | QMessageBox::StandardButton::No) == QMessageBox::StandardButton::Yes);
+    if(!firstConfirm) return;
+    secondConfirm = (!jeu->autoSave() || (QMessageBox::warning(this,"Confirmation", "Attention. La sauvegarde automatique est activée. Si vous continuez, il vous sera impossible de récupérer votre progression. Êtes-vous sûr de vouloir poursuivre ?", QMessageBox::StandardButton::Yes | QMessageBox::StandardButton::No) == QMessageBox::StandardButton::Yes));
+    if(secondConfirm) {
+        bool autoSave = jeu->autoSave();
+        removeAchatsViews();
+
+        delete(jeu);
+        jeu = new Jeu(this,"",autoSave);
+        addAchatsViews();
+    }
 }

@@ -17,7 +17,8 @@ class MainWindow;
 class Jeu
 {
 public:
-    Jeu(MainWindow* fenetre, std::string chemin = "sauvegarde.sav");
+    Jeu(MainWindow* fenetre, std::string chemin = "sauvegarde.sav", bool autoSave = true);
+    ~Jeu();
 
     bool autoSave();
     void setAutoSave(bool autoSave);

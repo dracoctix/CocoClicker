@@ -1,7 +1,7 @@
 #include "jeu.h"
 #include "mainwindow.h"
 
-Jeu::Jeu(MainWindow* fenetre, std::string chemin) :
+Jeu::Jeu(MainWindow* fenetre, std::string chemin, bool autoSave) :
     _fenetre(fenetre)
 {
     std::ifstream sauvegarde;
@@ -17,7 +17,7 @@ Jeu::Jeu(MainWindow* fenetre, std::string chemin) :
     _achats.push_back(petitLivreRouge);
 
     _roubles = 0;
-    _autoSave = true;
+    _autoSave = autoSave;
 
     if(sauvegarde.is_open()) {
 
@@ -33,6 +33,13 @@ Jeu::Jeu(MainWindow* fenetre, std::string chemin) :
 
             getAchat(typeAchat)->setNb(nb);
         }
+    }
+}
+
+Jeu::~Jeu()
+{
+    for(Achat* achat : _achats) {
+        delete(achat);
     }
 }
 

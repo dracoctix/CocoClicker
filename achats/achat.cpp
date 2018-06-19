@@ -9,7 +9,6 @@ Achat::Achat() :
 
 Achat::~Achat()
 {
-    std::cout << "Destruction !"  << std::endl;
 }
 
 int Achat::getNb()
