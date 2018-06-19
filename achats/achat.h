@@ -10,9 +10,11 @@ class Achat
 public:
     Achat();
     ~Achat();
+
     int getNb();
     void buy(int nb = 1);
     void sell(int nb = 1);
+    void setNb(int nb = 0);
 
     virtual double getPrixDeBase() =0;
     double getPrixNext(int nb = 1);

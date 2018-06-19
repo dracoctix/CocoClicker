@@ -4,6 +4,8 @@
 #include <QString>
 #include <QMessageBox>
 #include <vector>
+#include <string>
+#include <map>
 
 #include "achats/achat.h"
 #include "achats/manifeste.h"
@@ -15,7 +17,7 @@ class MainWindow;
 class Jeu
 {
 public:
-    Jeu(MainWindow* fenetre);
+    Jeu(MainWindow* fenetre, std::string chemin = "sauvegarde.sav");
 
     void setMainWindow(MainWindow* fenetre);
     void ajouterRoubles();
@@ -30,7 +32,7 @@ public:
     Achat* getAchat(TypeAchat::TypeAchat type);
     std::vector<Achat*> getAchats();
 
-    void sauvegarder(QString chemin);
+    void sauvegarder(std::string chemin);
 
 private:
     MainWindow* _fenetre;
@@ -38,8 +40,6 @@ private:
 
     // Achats
     std::vector<Achat*> _achats;
-    Manifeste* _manifeste;
-    PetitLivreRouge* _petitLivreRouge;
 };
 
 #endif // JEU_H

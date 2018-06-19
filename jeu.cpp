@@ -1,15 +1,36 @@
 #include "jeu.h"
 #include "mainwindow.h"
 
-Jeu::Jeu(MainWindow* fenetre) :
-    _fenetre(fenetre),
-    _roubles(0)
+Jeu::Jeu(MainWindow* fenetre, std::string chemin) :
+    _fenetre(fenetre)
 {
-    _manifeste = new Manifeste();
-    _achats.push_back(_manifeste);
+    std::ifstream sauvegarde;
+    if(!chemin.empty())
+    {
+        sauvegarde = std::ifstream(chemin, std::ios::in | std::ios::binary);
+    }
 
-    _petitLivreRouge = new PetitLivreRouge();
-    _achats.push_back(_petitLivreRouge);
+    Manifeste* manifeste = new Manifeste();
+    _achats.push_back(manifeste);
+
+    PetitLivreRouge* petitLivreRouge = new PetitLivreRouge();
+    _achats.push_back(petitLivreRouge);
+
+    _roubles = 0;
+    if(sauvegarde.is_open()) {
+
+        sauvegarde.read((char*)&_roubles, sizeof(double));
+
+        for(Achat* achat : _achats)
+        {
+            TypeAchat::TypeAchat typeAchat;
+            int nb;
+            sauvegarde.read((char*)&typeAchat, sizeof(TypeAchat::TypeAchat));
+            sauvegarde.read((char*)&nb, sizeof(int));
+
+            getAchat(typeAchat)->setNb(nb);
+        }
+    }
 }
 
 void Jeu::setMainWindow(MainWindow *fenetre)
@@ -48,13 +69,28 @@ double Jeu::getRoublesParClic()
     return 1;
 }
 
-void Jeu::sauvegarder(QString chemin)
+void Jeu::sauvegarder(std::string chemin)
 {
-    std::ofstream sauvegarde(chemin.toStdString(), std::ios::out | std::ios::binary);
+    std::ofstream sauvegarde(chemin, std::ios::out | std::ios::binary);
 
     if(sauvegarde.is_open())
     {
-        sauvegarde.write((char*)this, sizeof(Jeu));
+//        std::map<TypeAchat::TypeAchat, int> nombres;
+//        std::map<TypeAchat::TypeAchat, int>::iterator it;
+
+//        for(it = nombres.begin(); it != nombres.end(); ++it)
+//        {
+
+//        }
+
+        sauvegarde.write((char*)&_roubles, sizeof(double));
+        for(Achat* achat : _achats)
+        {
+            int nb = achat->getNb();
+            TypeAchat::TypeAchat typeAchat = achat->typeAchat();
+            sauvegarde.write((char*)&typeAchat, sizeof(TypeAchat::TypeAchat));
+            sauvegarde.write((char*)&nb, sizeof(int));
+        }
     }
     else
     {
@@ -65,14 +101,10 @@ void Jeu::sauvegarder(QString chemin)
 Achat* Jeu::getAchat(TypeAchat::TypeAchat type)
 {
     Achat* retour = NULL;
-    switch(type) {
-    case TypeAchat::ManifesteParti:
-        retour = _manifeste;
-        break;
-
-    case TypeAchat::PetitLivreRouge:
-        retour = _petitLivreRouge;
-        break;
+    for(Achat* achat : _achats) {
+        if(achat->typeAchat() == type) {
+            retour = achat;
+        }
     }
 
     return retour;

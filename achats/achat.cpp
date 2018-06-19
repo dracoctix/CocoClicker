@@ -27,6 +27,11 @@ void Achat::sell(int nb)
     _nb -= nb;
 }
 
+void Achat::setNb(int nb)
+{
+    _nb = nb;
+}
+
 double Achat::getPrixNext(int nb)
 {
     double prixNext = 0;
