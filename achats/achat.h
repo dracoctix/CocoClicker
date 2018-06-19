@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <iostream>
+#include "typeachat.h"
 
 class Achat
 {
@@ -30,6 +31,8 @@ public:
     virtual QString nomAffichage() =0;
 
     virtual QString texteInfo() =0;
+
+    virtual TypeAchat::TypeAchat typeAchat() =0;
 
 private:
     int _nb;

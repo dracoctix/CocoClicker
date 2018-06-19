@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QList>
 #include <QStatusBar>
+#include <QLayout>
 
 #include <iostream>
 #include <fstream>
@@ -34,6 +35,8 @@ public:
     void updateValues();
 
     void setStatusText(QString texte);
+
+    void addAchatsViews();
 
 public slots:
     void ajouterRoubles();

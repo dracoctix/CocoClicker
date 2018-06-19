@@ -29,7 +29,8 @@ SOURCES += \
     jeu.cpp \
     achats/achat.cpp \
     achatview.cpp \
-    achats/manifeste.cpp
+    achats/manifeste.cpp \
+    achats/petitlivrerouge.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -37,7 +38,8 @@ HEADERS += \
     achats/achat.h \
     achatview.h \
     achats/manifeste.h \
-    achats/typeachat.h
+    achats/typeachat.h \
+    achats/petitlivrerouge.h
 
 FORMS += \
         mainwindow.ui \

@@ -7,6 +7,9 @@ Jeu::Jeu(MainWindow* fenetre) :
 {
     _manifeste = new Manifeste();
     _achats.push_back(_manifeste);
+
+    _petitLivreRouge = new PetitLivreRouge();
+    _achats.push_back(_petitLivreRouge);
 }
 
 void Jeu::setMainWindow(MainWindow *fenetre)
@@ -28,7 +31,11 @@ void Jeu::ajouterRoublesClic()
 
 double Jeu::getRoublesParMs(int millisecondes)
 {
-    return _manifeste->getTotalRevenuParMs(millisecondes);
+    double gain = 0;
+    for(Achat* achat : _achats) {
+        gain += achat->getTotalRevenuParMs(millisecondes);
+    }
+    return gain;
 }
 
 double Jeu::getRoubles()
@@ -55,14 +62,17 @@ void Jeu::sauvegarder(QString chemin)
     }
 }
 
-Achat* Jeu::getAchat(TypeAchat type)
+Achat* Jeu::getAchat(TypeAchat::TypeAchat type)
 {
     Achat* retour = NULL;
     switch(type) {
-    case ManifesteParti:
+    case TypeAchat::ManifesteParti:
         retour = _manifeste;
         break;
-//        std::cout << _manifeste->getPrixDeBase() << std::endl;
+
+    case TypeAchat::PetitLivreRouge:
+        retour = _petitLivreRouge;
+        break;
     }
 
     return retour;
@@ -78,4 +88,9 @@ void Jeu::payerRoubles(double nbRoubles)
 {
     _roubles -= nbRoubles;
     _fenetre->changeRoubles();
+}
+
+std::vector<Achat*> Jeu::getAchats()
+{
+    return _achats;
 }

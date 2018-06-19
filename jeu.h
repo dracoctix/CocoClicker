@@ -7,6 +7,7 @@
 
 #include "achats/achat.h"
 #include "achats/manifeste.h"
+#include "achats/petitlivrerouge.h"
 #include "achats/typeachat.h"
 
 class MainWindow;
@@ -26,7 +27,8 @@ public:
     void gagnerRoubles(double nbRoubles);
     void payerRoubles(double nbRoubles);
 
-    Achat* getAchat(TypeAchat type);
+    Achat* getAchat(TypeAchat::TypeAchat type);
+    std::vector<Achat*> getAchats();
 
     void sauvegarder(QString chemin);
 
@@ -37,6 +39,7 @@ private:
     // Achats
     std::vector<Achat*> _achats;
     Manifeste* _manifeste;
+    PetitLivreRouge* _petitLivreRouge;
 };
 
 #endif // JEU_H

@@ -23,3 +23,8 @@ QString Manifeste::texteInfo()
 {
     return "La pensée de Karl Marx a été propagée.";
 }
+
+TypeAchat::TypeAchat Manifeste::typeAchat()
+{
+    return TypeAchat::ManifesteParti;
+}

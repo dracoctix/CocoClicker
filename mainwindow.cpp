@@ -23,10 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 //    std::cout << jeu->getAchat(ManifesteParti)->getPrixDeBase() << std::endl;
 
-    AchatView* achat = new AchatView(ui->tabAchats, jeu, jeu->getAchat(ManifesteParti), this);
-
-    ui->tabAchats->setMinimumWidth(achat->width());
-    _vuesAchat.append(achat);
+    addAchatsViews();
 }
 
 MainWindow::~MainWindow()
@@ -81,4 +78,18 @@ void MainWindow::updateValues()
 void MainWindow::setStatusText(QString texte)
 {
     ui->statusBar->showMessage(texte);
+}
+
+void MainWindow::addAchatsViews()
+{
+    QVBoxLayout* layout = new QVBoxLayout(ui->tabAchats);
+    ui->tabAchats->setLayout(layout);
+    AchatView* achatView;
+    for(Achat* a : jeu->getAchats())
+    {
+        achatView = new AchatView(ui->tabAchats, jeu, a, this);
+        layout->addWidget(achatView);
+        _vuesAchat.append(achatView);
+        ui->tabAchats->setMinimumWidth(achatView->width());
+    }
 }

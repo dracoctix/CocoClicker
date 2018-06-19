@@ -12,6 +12,8 @@ public:
     double getPrixDeBase();
     QString nomAffichage();
     QString texteInfo();
+
+    TypeAchat::TypeAchat typeAchat();
 };
 
 #endif // MANIFESTE_H
