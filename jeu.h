@@ -19,6 +19,9 @@ class Jeu
 public:
     Jeu(MainWindow* fenetre, std::string chemin = "sauvegarde.sav");
 
+    bool autoSave();
+    void setAutoSave(bool autoSave);
+
     void setMainWindow(MainWindow* fenetre);
     void ajouterRoubles();
     void ajouterRoublesClic();
@@ -32,11 +35,13 @@ public:
     Achat* getAchat(TypeAchat::TypeAchat type);
     std::vector<Achat*> getAchats();
 
-    void sauvegarder(std::string chemin);
+    void sauvegarder(std::string chemin = "sauvegarde.sav");
 
 private:
     MainWindow* _fenetre;
     double _roubles;
+
+    bool _autoSave;
 
     // Achats
     std::vector<Achat*> _achats;

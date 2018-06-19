@@ -8,6 +8,7 @@
 #include <QList>
 #include <QStatusBar>
 #include <QLayout>
+#include <QAction>
 
 #include <iostream>
 #include <fstream>
@@ -45,6 +46,8 @@ private slots:
     void on_actionSauvegarde_rapide_triggered();
 
     void on_boutonTravailler_pressed();
+
+    void on_actionSauvegarde_automatique_triggered(bool checked);
 
 private:
     Ui::MainWindow *ui;

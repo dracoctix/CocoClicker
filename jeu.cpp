@@ -17,9 +17,12 @@ Jeu::Jeu(MainWindow* fenetre, std::string chemin) :
     _achats.push_back(petitLivreRouge);
 
     _roubles = 0;
+    _autoSave = true;
+
     if(sauvegarde.is_open()) {
 
         sauvegarde.read((char*)&_roubles, sizeof(double));
+        sauvegarde.read((char*)&_autoSave, sizeof(bool));
 
         for(Achat* achat : _achats)
         {
@@ -31,6 +34,16 @@ Jeu::Jeu(MainWindow* fenetre, std::string chemin) :
             getAchat(typeAchat)->setNb(nb);
         }
     }
+}
+
+void Jeu::setAutoSave(bool autoSave)
+{
+    _autoSave = autoSave;
+}
+
+bool Jeu::autoSave()
+{
+    return _autoSave;
 }
 
 void Jeu::setMainWindow(MainWindow *fenetre)
@@ -84,6 +97,7 @@ void Jeu::sauvegarder(std::string chemin)
 //        }
 
         sauvegarde.write((char*)&_roubles, sizeof(double));
+        sauvegarde.write((char*)&_autoSave, sizeof(bool));
         for(Achat* achat : _achats)
         {
             int nb = achat->getNb();

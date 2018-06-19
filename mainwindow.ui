@@ -123,11 +123,17 @@
     <addaction name="actionSauvegarde_rapide"/>
     <addaction name="actionExporter_sauvegarde"/>
     <addaction name="actionLire_sauvegarde"/>
+    <addaction name="actionSauvegarde_automatique"/>
+    <addaction name="separator"/>
+    <addaction name="actionR_initialiser"/>
    </widget>
    <addaction name="menuSauvegarde"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionSauvegarde_rapide">
+   <property name="checked">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>&amp;Sauvegarde rapide</string>
    </property>
@@ -155,6 +161,22 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionSauvegarde_automatique">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Sauvegarde automatique</string>
+   </property>
+  </action>
+  <action name="actionR_initialiser">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Réinitialiser</string>
    </property>
   </action>
  </widget>

@@ -7,15 +7,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    jeu = new Jeu(this);
+    jeu = new Jeu(this, "sauvegarde.sav");
 
-//    SAUVEGARDE EN MAINTENANCE
-//    std::ifstream sauvegarde("sauvegarde.sav",std::ios::in | std::ios::binary);
-//    if(sauvegarde.is_open())
-//    {
-//        sauvegarde.read((char*)jeu, sizeof(Jeu));
-//        jeu->setMainWindow(this);
-//    }
+    ui->actionSauvegarde_automatique->setChecked(jeu->autoSave());
 
     _timer.start(10);
 
@@ -73,6 +67,10 @@ void MainWindow::updateValues()
     for(AchatView* widget : _vuesAchat) {
         widget->updateValues();
     }
+
+    if(jeu->autoSave()) {
+        jeu->sauvegarder("sauvegarde.sav");
+    }
 }
 
 void MainWindow::setStatusText(QString texte)
@@ -92,4 +90,9 @@ void MainWindow::addAchatsViews()
         _vuesAchat.append(achatView);
         ui->tabAchats->setMinimumWidth(achatView->width());
     }
+}
+
+void MainWindow::on_actionSauvegarde_automatique_triggered(bool checked)
+{
+    jeu->setAutoSave(checked);
 }
