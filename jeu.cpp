@@ -115,16 +115,12 @@ bool Jeu::sauvegarder(std::string chemin)
 
     if(sauvegarde.is_open())
     {
-//        std::map<TypeAchat::TypeAchat, int> nombres;
-//        std::map<TypeAchat::TypeAchat, int>::iterator it;
-
-//        for(it = nombres.begin(); it != nombres.end(); ++it)
-//        {
-
-//        }
+        int version = SAVE_VERSION;
+        sauvegarde.write((char*)&version, sizeof(int));
 
         sauvegarde.write((char*)&_roubles, sizeof(double));
         sauvegarde.write((char*)&_autoSave, sizeof(bool));
+        sauvegarde.write((char*)&_cheatEnabled, sizeof(bool));
         for(Achat* achat : _achats)
         {
             int nb = achat->getNb();
