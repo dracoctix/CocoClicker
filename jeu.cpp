@@ -2,36 +2,45 @@
 #include "mainwindow.h"
 
 Jeu::Jeu(MainWindow* fenetre, std::string chemin, bool autoSave) :
-    _fenetre(fenetre)
+    _fenetre(fenetre),
+    _roubles(0),
+    _autoSave(autoSave),
+    _cheatEnabled(false)
 {
-    std::ifstream sauvegarde;
-    if(!chemin.empty())
-    {
-        sauvegarde = std::ifstream(chemin, std::ios::in | std::ios::binary);
-    }
-
     Manifeste* manifeste = new Manifeste();
     _achats.push_back(manifeste);
 
     PetitLivreRouge* petitLivreRouge = new PetitLivreRouge();
     _achats.push_back(petitLivreRouge);
 
-    _roubles = 0;
-    _autoSave = autoSave;
+    std::ifstream sauvegarde;
+    if(!chemin.empty())
+    {
+        sauvegarde = std::ifstream(chemin, std::ios::in | std::ios::binary);
+    }
 
     if(sauvegarde.is_open()) {
+        int version;
 
-        sauvegarde.read((char*)&_roubles, sizeof(double));
-        sauvegarde.read((char*)&_autoSave, sizeof(bool));
+        sauvegarde.read((char*)&version, sizeof(int));
 
-        for(Achat* achat : _achats)
-        {
-            TypeAchat::TypeAchat typeAchat;
-            int nb;
-            sauvegarde.read((char*)&typeAchat, sizeof(TypeAchat::TypeAchat));
-            sauvegarde.read((char*)&nb, sizeof(int));
+        if(version == SAVE_VERSION) {
+            sauvegarde.read((char*)&_roubles, sizeof(double));
+            sauvegarde.read((char*)&_autoSave, sizeof(bool));
+            sauvegarde.read((char*)&_cheatEnabled, sizeof(bool));
 
-            getAchat(typeAchat)->setNb(nb);
+            for(Achat* achat : _achats)
+            {
+                TypeAchat::TypeAchat typeAchat;
+                int nb;
+                sauvegarde.read((char*)&typeAchat, sizeof(TypeAchat::TypeAchat));
+                sauvegarde.read((char*)&nb, sizeof(int));
+
+                getAchat(typeAchat)->setNb(nb);
+            }
+        }
+        else {
+            QMessageBox::critical(fenetre,"Sauvegarde incompatible.","La sauvegarde que vous tentez de charger correspond à une version du jeu utilisant un format de sauvegarde différent. La sauvegarde n'a donc pas pu être chargée.<br>(Version de la sauvegarde : <strong>" + QString::number(version) + "</strong>, version du jeu : <strong>" + QString::number(SAVE_VERSION) + "</strong>)");
         }
     }
 }

@@ -23,6 +23,9 @@ public:
     bool autoSave();
     void setAutoSave(bool autoSave);
 
+    bool cheatEnabled();
+    void enableCheat();
+
     void setMainWindow(MainWindow* fenetre);
     void ajouterRoubles();
     void ajouterRoublesClic();
@@ -39,6 +42,10 @@ public:
     bool sauvegarder(std::string chemin = "sauvegarde.sav");
 
 private:
+    const static int SAVE_VERSION = 1;
+
+    bool _cheatEnabled;
+
     MainWindow* _fenetre;
     double _roubles;
 
