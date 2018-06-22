@@ -13,6 +13,10 @@ Jeu::Jeu(MainWindow* fenetre, std::string chemin, bool autoSave) :
     PetitLivreRouge* petitLivreRouge = new PetitLivreRouge();
     _achats.push_back(petitLivreRouge);
 
+    _nextDoubleBonus = new QTimer(_fenetre);
+
+    int nextDoubleBonusTime = computeNextDoubleBonusTime();
+
     std::ifstream sauvegarde;
     if(!chemin.empty())
     {
@@ -28,6 +32,7 @@ Jeu::Jeu(MainWindow* fenetre, std::string chemin, bool autoSave) :
             sauvegarde.read((char*)&_roubles, sizeof(double));
             sauvegarde.read((char*)&_autoSave, sizeof(bool));
             sauvegarde.read((char*)&_cheatEnabled, sizeof(bool));
+            sauvegarde.read((char*)&nextDoubleBonusTime, sizeof(int));
 
             for(Achat* achat : _achats)
             {
@@ -42,6 +47,8 @@ Jeu::Jeu(MainWindow* fenetre, std::string chemin, bool autoSave) :
         else {
             QMessageBox::critical(fenetre,"Sauvegarde incompatible.","La sauvegarde que vous tentez de charger correspond à une version du jeu utilisant un format de sauvegarde différent. La sauvegarde n'a donc pas pu être chargée.<br>(Version de la sauvegarde : <strong>" + QString::number(version) + "</strong>, version du jeu : <strong>" + QString::number(SAVE_VERSION) + "</strong>)");
         }
+
+        _nextDoubleBonus->start(nextDoubleBonusTime);
     }
 }
 
@@ -168,6 +175,11 @@ void Jeu::setRoubles(double nbRoubles)
 {
     _roubles = nbRoubles;
     _fenetre->changeRoubles();
+}
+
+int Jeu::computeNextDoubleBonusTime()
+{
+    return ((rand() % 25)+5) * 30 * 1000;
 }
 
 std::vector<Achat*> Jeu::getAchats()

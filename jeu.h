@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <vector>
 #include <string>
+#include <QTimer>
 #include <map>
 
 #include "achats/achat.h"
@@ -37,20 +38,22 @@ public:
     void payerRoubles(double nbRoubles);
     void setRoubles(double nbRoubles);
 
+    int computeNextDoubleBonusTime();
+
     Achat* getAchat(TypeAchat::TypeAchat type);
     std::vector<Achat*> getAchats();
 
     bool sauvegarder(std::string chemin = "sauvegarde.sav");
 
 private:
-    const static int SAVE_VERSION = 1;
-
-    bool _cheatEnabled;
+    const static int SAVE_VERSION = 2;
 
     MainWindow* _fenetre;
-    double _roubles;
 
+    double _roubles;
     bool _autoSave;
+    bool _cheatEnabled;
+    QTimer* _nextDoubleBonus;
 
     // Achats
     std::vector<Achat*> _achats;
