@@ -31,6 +31,11 @@ void Achat::setNb(int nb)
     _nb = nb;
 }
 
+double Achat::getRapportLevel()
+{
+    return 1.025;
+}
+
 double Achat::getPrixNext(int nb)
 {
     double prixNext = 0;
@@ -46,7 +51,7 @@ double Achat::getPrixLevel(int level)
 
     for(int i = 2; i <= level; ++i)
     {
-        prix *= 1.025;
+        prix *= getRapportLevel();
     }
 
     return prix;
@@ -86,4 +91,9 @@ double Achat::getPrixVenteNext(int nb)
     }
 
     return prix;
+}
+
+int Achat::getBuyableLevels(double roubles)
+{
+    return (log(((-1*roubles*(1-getRapportLevel()))/getPrixLevel(_nb)) + 1)/log(getRapportLevel()));
 }

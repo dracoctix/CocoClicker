@@ -2,7 +2,10 @@
 #define ACHAT_H
 
 #include <QString>
+
 #include <iostream>
+#include <cmath>
+
 #include "typeachat.h"
 
 class Achat
@@ -29,12 +32,15 @@ public:
     double getRevenuParMs(int milliseconds = 1000);
     double getTotalRevenuParMs(int milliseconds = 1000);
     virtual double getRevenuBaseSecond() =0;
+    double getRapportLevel();
 
     virtual QString nomAffichage() =0;
 
     virtual QString texteInfo() =0;
 
     virtual TypeAchat::TypeAchat typeAchat() =0;
+
+    int getBuyableLevels(double roubles);
 
 private:
     int _nb;

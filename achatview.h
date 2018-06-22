@@ -26,24 +26,39 @@ public:
     ~AchatView();
 
     void updateValues();
-    void updateButtons(int nb = -1);
-    void updateButtonsEnable(int nb = -1);
+    void updateBuyButton(int nb = -1);
+    void updateBuyButtonEnable(int nb = -1);
+    void updateSellButton(int nb = -1);
+    void updateSellButtonEnable(int nb = -1);
 
     void buy(int i = 1);
     void sell(int i = 1);
 
 private slots:
-    void on_sbNb_valueChanged(int arg1);
-
     void on_pbAchat_clicked();
 
     void on_pbVente_clicked();
+
+    void on_sbNbBuy_valueChanged(int arg1);
+
+    void on_pbBuyMin_clicked();
+
+    void on_sbNbSell_valueChanged(int arg1);
+
+    void on_pbBuyMax_clicked();
+
+    void on_pbSellMax_clicked();
+
+    void on_pbSellMin_clicked();
 
 private:
     Ui::AchatView *ui;
     Jeu* _jeu;
     Achat* _achat;
     MainWindow* _mainWindow;
+
+    int _maxVentes;
+    int _maxAchats;
 };
 
 #endif // ACHATVIEW_H
