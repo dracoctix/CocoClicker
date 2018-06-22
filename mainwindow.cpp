@@ -180,3 +180,21 @@ void MainWindow::on_actionLire_sauvegarde_triggered()
         setStatusTip("Les archives ont été récupérées.");
     }
 }
+
+void MainWindow::on_actionTricher_triggered()
+{
+    if(jeu->cheatEnabled() || (QMessageBox::warning(this,"Activation de la triche.","Attention. Si vous activez la triche, vous ne pourrez plus la désactiver, et votre partie sera marquée comme ayant trichée. Êtes-vous sûr de vouloir activer la triche ?", QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes))
+    {
+        CheatDialog* cheatDialog = new CheatDialog(this,jeu);
+        if(cheatDialog->exec())
+        {
+            jeu->enableCheat();
+            jeu->setRoubles(cheatDialog->getRoubles());
+        }
+    }
+}
+
+Jeu* MainWindow::getJeu()
+{
+    return jeu;
+}

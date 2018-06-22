@@ -62,6 +62,16 @@ bool Jeu::autoSave()
     return _autoSave;
 }
 
+void Jeu::enableCheat()
+{
+    _cheatEnabled = true;
+}
+
+bool Jeu::cheatEnabled()
+{
+    return _cheatEnabled;
+}
+
 void Jeu::setMainWindow(MainWindow *fenetre)
 {
     _fenetre = fenetre;
@@ -155,6 +165,12 @@ void Jeu::gagnerRoubles(double nbRoubles)
 void Jeu::payerRoubles(double nbRoubles)
 {
     _roubles -= nbRoubles;
+    _fenetre->changeRoubles();
+}
+
+void Jeu::setRoubles(double nbRoubles)
+{
+    _roubles = nbRoubles;
     _fenetre->changeRoubles();
 }
 

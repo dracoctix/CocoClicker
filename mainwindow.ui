@@ -128,6 +128,8 @@
     <addaction name="actionR_initialiser"/>
     <addaction name="actionSupprimer_la_sauvegarde"/>
     <addaction name="actionRevenir_la_derni_re_sauvegarde"/>
+    <addaction name="separator"/>
+    <addaction name="actionTricher"/>
    </widget>
    <addaction name="menuSauvegarde"/>
   </widget>
@@ -183,12 +185,17 @@
   </action>
   <action name="actionSupprimer_la_sauvegarde">
    <property name="text">
-    <string>Supprimer la sauvegarde</string>
+    <string>Su&amp;pprimer la sauvegarde</string>
    </property>
   </action>
   <action name="actionRevenir_la_derni_re_sauvegarde">
    <property name="text">
-    <string>Revenir à la dernière sauvegarde</string>
+    <string>Revenir &amp;à la dernière sauvegarde</string>
+   </property>
+  </action>
+  <action name="actionTricher">
+   <property name="text">
+    <string>Tricher...</string>
    </property>
   </action>
  </widget>

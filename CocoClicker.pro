@@ -30,7 +30,8 @@ SOURCES += \
     achats/achat.cpp \
     achatview.cpp \
     achats/manifeste.cpp \
-    achats/petitlivrerouge.cpp
+    achats/petitlivrerouge.cpp \
+    cheatdialog.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -39,8 +40,10 @@ HEADERS += \
     achatview.h \
     achats/manifeste.h \
     achats/typeachat.h \
-    achats/petitlivrerouge.h
+    achats/petitlivrerouge.h \
+    cheatdialog.h
 
 FORMS += \
         mainwindow.ui \
-    achatview.ui
+    achatview.ui \
+    cheatdialog.ui

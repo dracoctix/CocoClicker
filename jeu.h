@@ -35,6 +35,7 @@ public:
 
     void gagnerRoubles(double nbRoubles);
     void payerRoubles(double nbRoubles);
+    void setRoubles(double nbRoubles);
 
     Achat* getAchat(TypeAchat::TypeAchat type);
     std::vector<Achat*> getAchats();

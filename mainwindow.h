@@ -19,6 +19,7 @@
 #include "jeu.h"
 #include "achatview.h"
 #include "achats/typeachat.h"
+#include "cheatdialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -46,6 +47,8 @@ public:
     bool deleteSave(std::string chemin = "sauvegarde.sav");
     void reset(std::string chemin = "");
 
+    Jeu* getJeu();
+
 public slots:
     void ajouterRoubles();
 
@@ -65,6 +68,8 @@ private slots:
     void on_actionExporter_sauvegarde_triggered();
 
     void on_actionLire_sauvegarde_triggered();
+
+    void on_actionTricher_triggered();
 
 private:
     Ui::MainWindow *ui;
