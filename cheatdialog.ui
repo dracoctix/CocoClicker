@@ -56,10 +56,10 @@
       <item>
        <widget class="QDoubleSpinBox" name="sbBonusTime">
         <property name="decimals">
-         <number>4</number>
+         <number>3</number>
         </property>
         <property name="minimum">
-         <double>0.000100000000000</double>
+         <double>0.000000000000000</double>
         </property>
         <property name="maximum">
          <double>30.000000000000000</double>

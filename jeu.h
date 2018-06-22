@@ -44,8 +44,11 @@ public:
     bool isActiveBonus();
     void setActiveBonus(bool activeBonus);
     int getRemainingBonusTime();
+    QTimer* getTimeBeforeBonusEnd();
+    QTimer* getNextDoubleBonus();
 
     void forceBonusSpawn();
+    void changeBonusLength(double milliseconds);
 
     Achat* getAchat(TypeAchat::TypeAchat type);
     std::vector<Achat*> getAchats();

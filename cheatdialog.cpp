@@ -8,6 +8,9 @@ CheatDialog::CheatDialog(QWidget *parent, Jeu *jeu) :
 {
     ui->setupUi(this);
     ui->sbRoubles->setValue(jeu->getRoubles());
+    ui->gbBonus->setChecked(jeu->isActiveBonus());
+    if(jeu->isActiveBonus())
+        ui->sbBonusTime->setValue(jeu->getRemainingBonusTime());
 }
 
 CheatDialog::~CheatDialog()
@@ -27,5 +30,10 @@ bool CheatDialog::bonus()
 
 double CheatDialog::bonusTime()
 {
-    return ui->sbBonusTime->value();
+    return ui->sbBonusTime->value() * 1000;
+}
+
+void CheatDialog::on_pbSpawnBonus_clicked()
+{
+    _jeu->forceBonusSpawn();
 }

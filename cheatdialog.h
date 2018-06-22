@@ -23,6 +23,9 @@ public:
     bool bonus();
     double bonusTime();
 
+private slots:
+    void on_pbSpawnBonus_clicked();
+
 private:
     Ui::CheatDialog *ui;
     Jeu* _jeu;

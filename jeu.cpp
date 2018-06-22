@@ -238,5 +238,40 @@ int Jeu::getRemainingBonusTime()
 
 void Jeu::forceBonusSpawn()
 {
+    if(_activeBonus) {
+        bool dialogue = QMessageBox::information(_fenetre,"Un bonus est déjà en cours.", "Un bonus est en cours, si vous décidez de faire apparaître le bouton, le bonus se terminera. Êtes-vous sûr de vouloir continuer ?", QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes;
+        if(dialogue)
+        {
+            _activeBonus = false;
+            _timeBeforeBonusEnd->stop();
+        }
+        else
+        {
+            return;
+        }
+    }
+    _nextDoubleBonus->setInterval(1);
+    enableCheat();
+}
 
+void Jeu::changeBonusLength(double milliseconds)
+{
+    if(_activeBonus) {
+        _timeBeforeBonusEnd->setInterval(milliseconds);
+    }
+    else {
+        _nextDoubleBonus->stop();
+        _activeBonus = true;
+        _timeBeforeBonusEnd->setInterval(milliseconds);
+    }
+}
+
+QTimer* Jeu::getNextDoubleBonus()
+{
+    return _nextDoubleBonus;
+}
+
+QTimer* Jeu::getTimeBeforeBonusEnd()
+{
+    return _timeBeforeBonusEnd;
 }

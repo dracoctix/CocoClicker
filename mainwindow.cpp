@@ -48,7 +48,9 @@ void MainWindow::changeRoubles()
 
     ui->labelRoubles->setText(texte);
     if(jeu->isActiveBonus()) {
-        QPalette palette = QPalette(QColor(Qt::yellow));
+        QColor color = Qt::red;
+        QPalette palette = ui->labelRoubles->palette();
+        palette.setColor(QPalette::WindowText,color);
         ui->labelRoubles->setPalette(palette);
     }
     else {
@@ -212,6 +214,14 @@ void MainWindow::on_actionTricher_triggered()
         {
             jeu->enableCheat();
             jeu->setRoubles(cheatDialog->getRoubles());
+            if(cheatDialog->bonus())
+            {
+                jeu->changeBonusLength(cheatDialog->bonusTime());
+            }
+            else if(jeu->isActiveBonus() && !cheatDialog->bonus())
+            {
+                endBonus();
+            }
         }
     }
 }
@@ -228,6 +238,10 @@ void MainWindow::newBonusButton()
 
     _bonusButton->move(rand() % ui->boutonTravailler->width(),rand() % ui->boutonTravailler->height());
     _bonusButton->show();
+
+    jeu->getNextDoubleBonus()->stop();
+
+    setStatusText("Une promotion au sein du parti est disponible.");
 
     connect(disparitionTimer, SIGNAL(timeout()),this,SLOT(timeoutBonusButton()));
 }
@@ -250,5 +264,6 @@ void MainWindow::endBonus()
 {
     jeu->setActiveBonus(false);
     jeu->resetTimer();
+    jeu->getTimeBeforeBonusEnd()->stop();
     setStatusText("Vous gagnez trop d'argent, et avez été rétrogradé par les chefs du parti. Attention au goulag !");
 }
