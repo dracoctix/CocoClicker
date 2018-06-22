@@ -18,6 +18,9 @@ MainWindow::MainWindow(QWidget *parent) :
 //    std::cout << jeu->getAchat(ManifesteParti)->getPrixDeBase() << std::endl;
 
     addAchatsViews();
+    _bonusButton = new QPushButton("Promotion",ui->boutonTravailler);
+    _bonusButton->hide();
+    connect(_bonusButton,SIGNAL(clicked()), this, SLOT(startBonus()));
 }
 
 MainWindow::~MainWindow()
@@ -38,7 +41,19 @@ void MainWindow::ajouterRoubles()
 
 void MainWindow::changeRoubles()
 {
-    ui->labelRoubles->setText(QString::number(jeu->getRoubles()) + " roubles");
+    QString texte = QString::number(jeu->getRoubles()) + " roubles";
+
+    if(jeu->isActiveBonus())
+        texte += " (bonus actif pendant encore " + QString::number(jeu->getRemainingBonusTime()) + " secondes)";
+
+    ui->labelRoubles->setText(texte);
+    if(jeu->isActiveBonus()) {
+        QPalette palette = QPalette(QColor(Qt::yellow));
+        ui->labelRoubles->setPalette(palette);
+    }
+    else {
+        ui->labelRoubles->setPalette(ui->labelRoublesParClic->palette());
+    }
 }
 
 void MainWindow::changeRoublesParSeconde()
@@ -204,4 +219,36 @@ void MainWindow::on_actionTricher_triggered()
 Jeu* MainWindow::getJeu()
 {
     return jeu;
+}
+
+void MainWindow::newBonusButton()
+{
+    QTimer *disparitionTimer = new QTimer(this);
+    disparitionTimer->start(25000);
+
+    _bonusButton->move(rand() % ui->boutonTravailler->width(),rand() % ui->boutonTravailler->height());
+    _bonusButton->show();
+
+    connect(disparitionTimer, SIGNAL(timeout()),this,SLOT(timeoutBonusButton()));
+}
+
+void MainWindow::timeoutBonusButton()
+{
+    setStatusText("La promotion a été proposée à Vladimir, car vous ne vous êtes pas proposé.");
+    _bonusButton->hide();
+    jeu->resetTimer();
+}
+
+void MainWindow::startBonus()
+{
+    jeu->setActiveBonus(true);
+    setStatusText("Vous avez été promu. Dépêchez-vous de vous enrichir avant que le parti ne vous repère !");
+    _bonusButton->hide();
+}
+
+void MainWindow::endBonus()
+{
+    jeu->setActiveBonus(false);
+    jeu->resetTimer();
+    setStatusText("Vous gagnez trop d'argent, et avez été rétrogradé par les chefs du parti. Attention au goulag !");
 }

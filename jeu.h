@@ -39,6 +39,13 @@ public:
     void setRoubles(double nbRoubles);
 
     int computeNextDoubleBonusTime();
+    void resetTimer();
+
+    bool isActiveBonus();
+    void setActiveBonus(bool activeBonus);
+    int getRemainingBonusTime();
+
+    void forceBonusSpawn();
 
     Achat* getAchat(TypeAchat::TypeAchat type);
     std::vector<Achat*> getAchats();
@@ -46,13 +53,15 @@ public:
     bool sauvegarder(std::string chemin = "sauvegarde.sav");
 
 private:
-    const static int SAVE_VERSION = 2;
+    const static int SAVE_VERSION = 3;
 
     MainWindow* _fenetre;
 
     double _roubles;
     bool _autoSave;
     bool _cheatEnabled;
+    bool _activeBonus;
+    QTimer* _timeBeforeBonusEnd;
     QTimer* _nextDoubleBonus;
 
     // Achats

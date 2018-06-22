@@ -19,3 +19,13 @@ double CheatDialog::getRoubles()
 {
     return ui->sbRoubles->value();
 }
+
+bool CheatDialog::bonus()
+{
+    return ui->gbBonus->isChecked();
+}
+
+double CheatDialog::bonusTime()
+{
+    return ui->sbBonusTime->value();
+}

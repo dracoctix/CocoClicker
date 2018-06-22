@@ -51,6 +51,10 @@ public:
 
 public slots:
     void ajouterRoubles();
+    void newBonusButton();
+    void timeoutBonusButton();
+    void startBonus();
+    void endBonus();
 
 private slots:
     void on_actionSauvegarde_rapide_triggered();
@@ -78,6 +82,8 @@ private:
     QTimer _timer;
 
     QList<AchatView*> _vuesAchat;
+
+    QPushButton* _bonusButton;
 };
 
 #endif // MAINWINDOW_H

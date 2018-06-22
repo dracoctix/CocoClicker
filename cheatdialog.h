@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QDoubleSpinBox>
+#include <QGroupBox>
 
 #include "jeu.h"
 
@@ -19,6 +20,8 @@ public:
     ~CheatDialog();
 
     double getRoubles();
+    bool bonus();
+    double bonusTime();
 
 private:
     Ui::CheatDialog *ui;

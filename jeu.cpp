@@ -5,7 +5,8 @@ Jeu::Jeu(MainWindow* fenetre, std::string chemin, bool autoSave) :
     _fenetre(fenetre),
     _roubles(0),
     _autoSave(autoSave),
-    _cheatEnabled(false)
+    _cheatEnabled(false),
+    _activeBonus(false)
 {
     Manifeste* manifeste = new Manifeste();
     _achats.push_back(manifeste);
@@ -14,8 +15,9 @@ Jeu::Jeu(MainWindow* fenetre, std::string chemin, bool autoSave) :
     _achats.push_back(petitLivreRouge);
 
     _nextDoubleBonus = new QTimer(_fenetre);
+    _timeBeforeBonusEnd = new QTimer(_fenetre);
 
-    int nextDoubleBonusTime = computeNextDoubleBonusTime();
+    int nextTimer = computeNextDoubleBonusTime();
 
     std::ifstream sauvegarde;
     if(!chemin.empty())
@@ -32,7 +34,8 @@ Jeu::Jeu(MainWindow* fenetre, std::string chemin, bool autoSave) :
             sauvegarde.read((char*)&_roubles, sizeof(double));
             sauvegarde.read((char*)&_autoSave, sizeof(bool));
             sauvegarde.read((char*)&_cheatEnabled, sizeof(bool));
-            sauvegarde.read((char*)&nextDoubleBonusTime, sizeof(int));
+            sauvegarde.read((char*)&_activeBonus, sizeof(bool));
+            sauvegarde.read((char*)&nextTimer, sizeof(int));
 
             for(Achat* achat : _achats)
             {
@@ -47,9 +50,17 @@ Jeu::Jeu(MainWindow* fenetre, std::string chemin, bool autoSave) :
         else {
             QMessageBox::critical(fenetre,"Sauvegarde incompatible.","La sauvegarde que vous tentez de charger correspond à une version du jeu utilisant un format de sauvegarde différent. La sauvegarde n'a donc pas pu être chargée.<br>(Version de la sauvegarde : <strong>" + QString::number(version) + "</strong>, version du jeu : <strong>" + QString::number(SAVE_VERSION) + "</strong>)");
         }
-
-        _nextDoubleBonus->start(nextDoubleBonusTime);
     }
+
+    if(!_activeBonus) {
+        _nextDoubleBonus->start(nextTimer);
+    }
+    else {
+        _timeBeforeBonusEnd->start(nextTimer);
+    }
+
+    QObject::connect(_nextDoubleBonus,SIGNAL(timeout()),_fenetre,SLOT(newBonusButton()));
+    QObject::connect(_timeBeforeBonusEnd,SIGNAL(timeout()),_fenetre, SLOT(endBonus()));
 }
 
 Jeu::~Jeu()
@@ -102,7 +113,10 @@ double Jeu::getRoublesParMs(int millisecondes)
     for(Achat* achat : _achats) {
         gain += achat->getTotalRevenuParMs(millisecondes);
     }
-    return gain;
+
+    int bonus = _activeBonus ? 2 : 1;
+
+    return bonus*gain;
 }
 
 double Jeu::getRoubles()
@@ -112,7 +126,8 @@ double Jeu::getRoubles()
 
 double Jeu::getRoublesParClic()
 {
-    return 1;
+    int bonus = _activeBonus ? 2 : 1;
+    return 1*bonus;
 }
 
 bool Jeu::sauvegarder(std::string chemin)
@@ -128,6 +143,18 @@ bool Jeu::sauvegarder(std::string chemin)
         sauvegarde.write((char*)&_roubles, sizeof(double));
         sauvegarde.write((char*)&_autoSave, sizeof(bool));
         sauvegarde.write((char*)&_cheatEnabled, sizeof(bool));
+        sauvegarde.write((char*)&_activeBonus, sizeof(bool));
+        int remainingTime;
+        if(_activeBonus) {
+            remainingTime = _timeBeforeBonusEnd->remainingTime();
+        }
+        else {
+            remainingTime = _nextDoubleBonus->remainingTime();
+        }
+
+        // On sauvegarde le temps restant avant le prochain événement quel qu'il soit.
+        sauvegarde.write((char*)&remainingTime, sizeof(int));
+
         for(Achat* achat : _achats)
         {
             int nb = achat->getNb();
@@ -185,4 +212,31 @@ int Jeu::computeNextDoubleBonusTime()
 std::vector<Achat*> Jeu::getAchats()
 {
     return _achats;
+}
+
+void Jeu::resetTimer()
+{
+    _nextDoubleBonus->start(computeNextDoubleBonusTime());
+}
+
+bool Jeu::isActiveBonus()
+{
+    return _activeBonus;
+}
+
+void Jeu::setActiveBonus(bool activeBonus)
+{
+    if(activeBonus)
+        _timeBeforeBonusEnd->start(30000);
+    _activeBonus = activeBonus;
+}
+
+int Jeu::getRemainingBonusTime()
+{
+    return _timeBeforeBonusEnd->remainingTime()/1000;
+}
+
+void Jeu::forceBonusSpawn()
+{
+
 }
