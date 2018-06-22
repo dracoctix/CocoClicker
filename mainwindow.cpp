@@ -71,6 +71,13 @@ void MainWindow::updateValues()
     if(jeu->autoSave()) {
         jeu->sauvegarder("sauvegarde.sav");
     }
+
+    QString titre = QString::number(jeu->getRoubles()) + " roubles (" + QString::number(jeu->getRoublesParMs(1000)) + " par seconde) - Coco Clicker";
+
+    if(jeu->cheatEnabled())
+        titre += " - Triche Activée";
+
+    setWindowTitle(titre);
 }
 
 void MainWindow::setStatusText(QString texte)
